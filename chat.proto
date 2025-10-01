@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package chat;
+
+option go_package = "grpc-chat/chatpb";
+
+service Chat {
+    rpc RegisterUser(UserInfo) returns (RegisterResponse);
+    rpc SendOffineMessages(stream ChatMessage) returns (UploadSummary);
+    rpc GetChatHistory(ChatHistoryRequest) returns (stream ChatMessage);
+    rpc Chat(stream ChatMessage) returns (stream ChatMessage);
+}
+
+message UserInfo {
+    string username = 1;
+}
+
+message RegisterResponse {
+    string message = 1;
+}
+
+message ChatMessage {
+    string username = 1;
+    string content = 2;
+    int64 timestamp = 3;
+}
+
+message UploadSummary {
+    int64 successfully_stored_message = 1;
+}
+
+message ChatHistoryRequest {
+    int64 timestamp = 1;
+}
